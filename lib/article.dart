@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Article {
   String author;
   String title;
@@ -18,12 +20,20 @@ class Article {
   });
 
   Article.from(Map<String, dynamic> article) {
-    this.author = article['author'];
-    this.title = article['title'];
-    this.description = article['description'];
-    this.url = article['url'];
-    this.urlToImage = article['urlToImage'];
-    this.publishedAt = article['publishedAt'];
-    this.content = article['content'];
+    author = article['author'];
+    title = article['title'];
+    description = article['description'];
+    url = article['url'];
+    urlToImage = article['urlToImage'];
+    publishedAt = article['publishedAt'];
+    content = article['content'];
   }
+}
+
+List<Article> parseArticles(String json) {
+  if (json == null) {
+    return [];
+  }
+  final List parsed = jsonDecode(json);
+  return parsed.map((json) => Article.from(json)).toList();
 }
